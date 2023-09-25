@@ -15,6 +15,7 @@ $resultadoConsulta = $con->queryAll($consulta);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <title>Index</title>
@@ -43,7 +44,7 @@ $resultadoConsulta = $con->queryAll($consulta);
         <div class="contenido-main">
             <!--MENU DE NAVEGACION-->
             <!-- Menú desplegable -->
-            <div class="contenido-principal">
+            <div class="contenido-principal mb-5" style="margin-top: 5rem;">
             <div class="bloque-menu" id="menuBloque">
                 <div  class="menu-overlay" id="menuOverlay">
                     <nav class="menu">
@@ -115,38 +116,44 @@ $resultadoConsulta = $con->queryAll($consulta);
                 </div>
             </div>
 
-            <div class="bloque-botones">
-                <!-- Contenido de la página -->
-                <div class="titulo-paginas">
-                    <h2 class="titulo-paginas-h2">CATEGORIAS</h2>
-                </div>
-                <div class="boton-añadir">
-                    <button class="boton-añadir-general">Añadir</button>
-                </div>
-                <div class="bloque-tabla">
-                    <table class="rounded-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($resultadoConsulta as $categoria){ ?>
-                                <tr class="categoria-cell">
-                                    <td  data-id="<?php echo $categoria['id']; ?>">
-                                        <?php echo $categoria['nombre']; ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo $categoria['descripcion']; ?>
-                                    </td>
+            <div class="container">
+                <div class="row">
+                    <div class="col-3" style="margin:auto">
+                            <div class="titulo-paginas">
+                                <h2 style="text-align:center">CATEGORIAS</h2>
+                            </div>
+                    </div>
+                    <div class="col-12" style="text-align: end;">
+                        <button class="btn btn-primary">Añadir</button>
+                    </div>
+                    <div class="col-12 col-md-7" style="margin:auto">
+                        <table class="rounded-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
                                 </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach($resultadoConsulta as $categoria){ ?>
+                                    <tr class="categoria-cell">
+                                        <td  data-id="<?php echo $categoria['id']; ?>">
+                                            <?php echo $categoria['nombre']; ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo $categoria['descripcion']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    
                 </div>
+              
             </div>
+        
         </div>
     </main>
     <script>

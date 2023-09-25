@@ -21,7 +21,7 @@ html {
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .header_a {
@@ -32,8 +32,9 @@ html {
     background-color: var(--negroClaro);
     color: var(--claro);
     margin: 0rem;
-    position: relative; /* Agregar posición relativa */
+    position: fixed; /* Agregar posición relativa */
     z-index: 2; /* Asegurar que el encabezado esté sobre el menú */
+    width: 100%;
 }
 
 .h2_a {
@@ -114,9 +115,11 @@ input:checked + .slider::before {
     position: fixed;
     top: 5.4rem;
     left: -100%;
-    width: 100%;
+    width: fit-content;
     height: 100%;
     transition: left 2s ease; 
+    overflow: auto;
+    background-color: white;
 }
 
 .menu-open {
@@ -171,7 +174,7 @@ input:checked + .slider::before {
     color: var(--claro);
 }
 .logo_nav{
-    position: fixed;
+    position: relative;
     bottom: 0;
     margin: 2rem 3rem;
 }
@@ -220,26 +223,38 @@ input:checked + .slider::before {
     align-items: end;
 }
 .boton-añadir-general{
-    display:flex ;
     background-color: var(--grisClaro);
     border-radius: 0.4rem;
     color: var(--claro);
     padding: 0.5rem 1rem;
     font-size: 1.6rem;
 }
+.btn-primary{
+    background-color: rgb(47, 85, 255);
+    font-weight: bold;
+    font-size: 18px;
+}
+.btn-primary:hover{
+    background-color: rgb(182, 193, 240);
+    color:black;
+}
 .boton-orden{
     display: flex;
     margin-top: 1rem;
 }
-.titulo-paginas-h2{
+.titulo-paginas{
     display: flex;
     margin: 0 auto;
     background-color: var(--naranja);
     color: var(--claro);
-    padding: 1rem 3rem 1rem 3rem;
+    padding: 1rem;
     border-radius: 1.5rem;
     margin-top: 2.5rem;
     box-shadow: 10px 7px 28px -3px rgba(0,0,0,0.37);
+    width: fit-content;
+}
+.titulo-paginas>h2{
+    margin-bottom: 0;
 }
 .botones-departamentos{
     display: flex;
@@ -263,6 +278,7 @@ input:checked + .slider::before {
 }
 
 .bloque-menu{
+    position: absolute;
     display: flex;
     width: 230px;
     height: 100%;

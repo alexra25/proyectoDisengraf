@@ -9,7 +9,7 @@
         menuToggle.addEventListener('click', () => {
             menuOverlay.classList.toggle('menu-open');
             menuBloque.classList.toggle('bloque-menu-oculto');
-            body.classList.toggle('no-scroll'); // Agregar esta línea para evitar el desplazamiento de la página
+           // body.classList.toggle('no-scroll'); // Agregar esta línea para evitar el desplazamiento de la página
         });
 
         //Eventos para ocultar los enlaces.
