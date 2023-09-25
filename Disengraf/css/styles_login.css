@@ -1,0 +1,254 @@
+:root {
+    --gris: #5f666f;
+    --claro: #e6e6e6;
+    --naranja: #cf8550;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+    /* Hack para Box Model **/
+}
+
+body {
+    background-image: url("../img/BACKGROUND-LOGIN.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* Esto fija la imagen de fondo */
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+}
+
+/** Servicios **/
+.contenedor {
+    width: 130rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+main {
+    display: flex;
+    margin: auto;
+}
+
+
+.login {
+    max-width: 47rem;
+    background-image: url("../img/FONDO-LOGIN.png");
+    background-position: bottom left;
+    background-size: cover;
+    border-radius: 5rem;
+    box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.5);
+}
+
+.login label,
+.login a {
+    color: var(--claro);
+    text-decoration: none;
+    font-size: 1.15rem;
+    cursor: pointer;
+    margin: auto 0;
+    transition: all 300ms;
+    font-size: 1.5rem;
+}
+
+.login label:hover,
+.login a:hover {
+    color: var(--naranja);
+}
+
+.login__contenedor-logo{
+    display: block;
+}
+
+.login__logo {
+    display: block;
+    width: 45%;
+    margin: 3rem auto;
+    margin-bottom: 0;
+}
+
+.login__icono {
+    height: 2.5rem;
+    margin-bottom: 0.8rem;
+    margin-right: 1.7rem;
+}
+
+.login__input {
+    display: flex;
+    margin: 0 6rem;
+    border-bottom: solid 0.2rem var(--claro);
+    margin-bottom: 4rem;
+}
+
+.login__caja {
+    outline: none;
+    /* quitar el efecto de resalto de borde cuando esta activo el input */
+    border: none;
+    background-color: #ffffff00;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--claro)
+}
+
+.login__caja::placeholder,
+textarea::placeholder {
+    opacity: 1;
+    color: var(--claro);
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+
+.login__recuerdame-olvidaste {
+    display: flex;
+    justify-content: space-between;
+    margin: 5rem 3rem;
+    flex-direction: row;
+}
+
+.login__recuerdame-olvidaste a {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-content: space-between;
+    font-style: italic;
+    font-size: 1.5rem;
+    transition: all 300ms;
+}
+
+.login-boton {
+    display: block;
+    padding: 1.8rem;
+    border-radius: 1.5rem;
+    border: none;
+    margin: 0 auto;
+    margin-bottom: 8rem;
+    width: 85%;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: var(--gris);
+    background-color: var(--claro);
+    opacity: 0.8;
+    cursor: pointer;
+    transition: all 300ms;
+}
+
+.login-boton:hover {
+    background-color: var(--naranja);
+    color: var(--claro);
+    opacity: 1;
+}
+
+    .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8rem;
+}
+
+.logo {
+    display: flex;
+    height: 4rem;
+}
+
+.notificaciones p {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--claro);
+    background-color: var(--naranja);
+    padding: 0.35rem;
+    border-radius: 1rem;
+    margin: 0.7rem 5rem;
+}
+
+.login form {
+    margin-top: 2rem;
+}
+
+
+/* media query para altura de pantalla **/
+
+@media (max-height: 920px) {
+    .contenedor {
+        height: auto;
+    }
+
+    main {
+        margin: 8rem auto 0 auto;
+    }  
+    
+    footer{ 
+        margin-top: 8rem;
+    }
+}
+
+@media (max-width: 1440px) {
+    main {
+        margin-top: 6rem;
+    }
+    .footer {
+       display: block;
+       align-items: center;
+    }
+
+    .logo {
+        height: 6rem;
+        margin: 6rem auto;
+    }
+}
+
+@media (max-width: 720px) {
+
+    main {
+       
+        margin: 0;
+        background-image: url("../img/FONDO-LOGIN.png");
+        background-position: bottom left;
+        background-size: cover;
+    }
+
+    .footer {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .login {
+        height: 100vh;
+        margin: auto;
+        min-width: none;
+        border-radius: 0;
+        background-image: none;
+        box-shadow: none;
+    }
+
+    .login__logo {
+        width: 60%;
+
+    }
+
+    .login__recuerdame-olvidaste {
+        display: block;
+        margin: 0 6rem; 
+    }
+
+    .login__recuerdame-olvidaste a {
+        margin-bottom: 5rem;
+    }
+
+    .login__recuerdame {
+        margin-bottom: 3rem;
+    }
+
+    .notificaciones p{
+        font-size: 1.6rem;
+    }
+
+}
+

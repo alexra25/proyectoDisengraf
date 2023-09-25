@@ -1,0 +1,320 @@
+/* Estilos INDEX */
+:root {
+    --gris: #5f666f;
+    --negroClaro: #333;
+    --claro: #e6e6e6;
+    --naranja: #cf8550;
+    --grisClaro:#a1a1a6;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box; /* Hack para Box Model **/
+}
+
+.body_a {
+    background-image: url("../img/slider.png");
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    margin: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header_a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--negroClaro);
+    color: var(--claro);
+    margin: 0rem;
+    position: relative; /* Agregar posición relativa */
+    z-index: 2; /* Asegurar que el encabezado esté sobre el menú */
+}
+
+.h2_a {
+    margin: 0;
+    margin-left: 1.5rem;
+    font-weight: 400;
+    font-size: 2rem;
+}
+
+.burguer{
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    padding-top: 0.1rem;
+}
+
+.bar {
+    width: 2.5rem;
+    height: 0.3rem;
+    background-color: var(--claro);
+    margin: 0.3rem 0;
+    transition: transform 0.3s ease;
+}
+
+.mode-switch {
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 4rem;
+    height: 2rem;
+    margin-left: 1rem;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--claro);
+}
+
+.slider.round {
+    border-radius: 3.4rem;
+}
+
+input:checked + .slider {
+    background-color: #ca804b;
+}
+
+.slider.round::before {
+    content: "";
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background-color: white;
+    top: 0.2rem;
+    left: 0.2rem;
+    transition: transform 0.3s ease;
+}
+
+input:checked + .slider::before {
+    transform: translateX(2rem);
+}
+
+/* Estilos para el menú desplegable */
+.menu-overlay {
+    display: flex;
+    position: fixed;
+    top: 5.4rem;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 2s ease; 
+}
+
+.menu-open {
+    display: flex;
+    left:0;
+    transition: left 0.5s; 
+}
+
+.menu {
+    height: 100%;
+    width: 23rem;
+    background-color: #d6d7db;
+    color: var(--claro);
+    font-weight: bold;
+    box-shadow: 10px 0px 28px 0px rgba(0,0,0,0.197);
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.menu ul li{
+    margin-bottom: 0.5rem;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #292929d5;
+    font-size: 1.6rem;
+}
+
+/* Estilos para evitar el desplazamiento de la página cuando se abre el menú */
+.no-scroll {
+    overflow: hidden;
+}
+.titu-submenu{
+    background-color: var(--gris);
+    color: var(--claro);
+    padding: 1.5rem;
+    margin: 0;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.submenu li a{
+    display: block;
+    padding: 1rem 3rem;
+    color: #fff;
+}
+.submenu li:hover, .submenu li a:hover{
+    background-color: var(--naranja);
+    color: var(--claro);
+}
+.logo_nav{
+    position: fixed;
+    bottom: 0;
+    margin: 2rem 3rem;
+}
+.iconos_nav{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0.5rem;
+}
+
+.logo_usuario{
+    width: 3rem;
+    height: 3rem;
+    margin: auto 0.5rem;
+}
+
+.icono_username{
+    width: 6rem;
+}
+.nombre_usuario{
+    display: flex;
+    justify-content: center;
+    color: #545454e2;
+    margin: 0;
+}
+.titulo_pagina{
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+   
+}
+.oculto{
+    display: none;
+}
+
+/*-------Estilos de las paginas----------*/
+.contenido-main{
+    display: flex;
+    
+}
+.titulo-paginas{
+    display: flex;
+}
+.boton-añadir{
+    display: flex;
+    justify-content: end;    
+    align-items: end;
+}
+.boton-añadir-general{
+    display:flex ;
+    background-color: var(--grisClaro);
+    border-radius: 0.4rem;
+    color: var(--claro);
+    padding: 0.5rem 1rem;
+    font-size: 1.6rem;
+}
+.boton-orden{
+    display: flex;
+    margin-top: 1rem;
+}
+.titulo-paginas-h2{
+    display: flex;
+    margin: 0 auto;
+    background-color: var(--naranja);
+    color: var(--claro);
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 1.5rem;
+    margin-top: 2.5rem;
+    box-shadow: 10px 7px 28px -3px rgba(0,0,0,0.37);
+}
+.botones-departamentos{
+    display: flex;
+    margin: 0 auto;
+}
+.boton-departamento{
+    display: flex;
+    margin: 0 2rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    color: var(--claro);
+    font-weight: bold;
+    background-color: var(--grisClaro);
+    margin-top: 2.7rem;
+
+}
+.boton-departamento:hover{
+    background-color: var(--negroClaro);
+    cursor: pointer;
+    box-shadow: 10px 7px 28px -3px rgba(0, 0, 0, 0.464);
+}
+
+.bloque-menu{
+    display: flex;
+    width: 230px;
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.bloque-menu-oculto{
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.contenido-principal{
+    display: flex;
+    width: 100%;
+}
+
+.bloque-botones{
+    display:flex ;
+    width: 120rem;
+    flex-direction: column;
+    margin: 0 auto; 
+}
+.bloque-tabla{
+    display: flex;
+}
+.rounded-table {
+    margin-top: 3rem;
+    border-spacing: 0;
+    width: 100%;
+    background-color: var(--claro);
+    border-radius: 3rem 3rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.rounded-table th,
+.rounded-table td {
+    padding: 1rem 1rem;
+    text-align: center;
+    border: 1px solid var(--grisClaro);
+}
+
+.rounded-table th {
+    background-color: var(--negroClaro);
+    color: var(--claro);
+}
+.rounded-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.rounded-table tbody tr td:first-child {
+    border-left: none;
+}
+.rounded-table tbody tr td:last-child {
+    border-right: none;
+}
