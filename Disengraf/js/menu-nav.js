@@ -9,10 +9,10 @@
         menuToggle.addEventListener('click', () => {
             menuOverlay.classList.toggle('menu-open');
             menuBloque.classList.toggle('bloque-menu-oculto');
-           // body.classList.toggle('no-scroll'); // Agregar esta línea para evitar el desplazamiento de la página
+            body.classList.toggle('no-scroll'); // Agregar esta línea para evitar el desplazamiento de la página
         });
 
-        //Eventos para ocultar los enlaces.
+        /*//Eventos para ocultar los enlaces.
         document.addEventListener("DOMContentLoaded", function () {
             const tituloControlStock = document.querySelector(".titu-submenu");
             const submenu = document.querySelector(".submenu");
@@ -20,4 +20,4 @@
             tituloControlStock.addEventListener("click", function () {
                 submenu.classList.toggle("oculto");
             });
-        });
+        });*/

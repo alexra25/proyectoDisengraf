@@ -4,7 +4,9 @@
     --negroClaro: #333;
     --claro: #e6e6e6;
     --naranja: #cf8550;
-    --grisClaro:#a1a1a6;
+    --grisClaro:#dedede;
+    --grisBotones:#cac9c9;
+    --transitionNaranja:all 300ms;
 }
 
 html {
@@ -21,7 +23,7 @@ html {
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .header_a {
@@ -32,9 +34,8 @@ html {
     background-color: var(--negroClaro);
     color: var(--claro);
     margin: 0rem;
-    position: fixed; /* Agregar posición relativa */
+    position: relative; /* Agregar posición relativa */
     z-index: 2; /* Asegurar que el encabezado esté sobre el menú */
-    width: 100%;
 }
 
 .h2_a {
@@ -118,8 +119,6 @@ input:checked + .slider::before {
     width: fit-content;
     height: 100%;
     transition: left 2s ease; 
-    overflow: auto;
-    background-color: white;
 }
 
 .menu-open {
@@ -131,7 +130,7 @@ input:checked + .slider::before {
 .menu {
     height: 100%;
     width: 23rem;
-    background-color: #d6d7db;
+    background-color: var(--grisClaro);
     color: var(--claro);
     font-weight: bold;
     box-shadow: 10px 0px 28px 0px rgba(0,0,0,0.197);
@@ -148,14 +147,16 @@ input:checked + .slider::before {
 
 .menu ul li a {
     text-decoration: none;
-    color: #292929d5;
+    color: var(--negroClaro);
     font-size: 1.6rem;
 }
 
-/* Estilos para evitar el desplazamiento de la página cuando se abre el menú */
+/* Estilos para evitar el desplazamiento de la página cuando se abre el menú 
 .no-scroll {
     overflow: hidden;
 }
+*/
+
 .titu-submenu{
     background-color: var(--gris);
     color: var(--claro);
@@ -167,14 +168,15 @@ input:checked + .slider::before {
 .submenu li a{
     display: block;
     padding: 1rem 3rem;
-    color: #fff;
+    color: var(--claro);
 }
 .submenu li:hover, .submenu li a:hover{
     background-color: var(--naranja);
     color: var(--claro);
+    transition: var(--transitionNaranja);
 }
 .logo_nav{
-    position: relative;
+    position: fixed;
     bottom: 0;
     margin: 2rem 3rem;
 }
@@ -208,6 +210,19 @@ input:checked + .slider::before {
 .oculto{
     display: none;
 }
+.submenu.oculto a {
+    display: none;
+}
+
+.submenu.visible a {
+    display: block;
+}
+
+.categoria-cell:hover{
+    background-color: var(--naranja);
+    color: var(--claro);
+    transition: var(--transitionNaranja);
+}
 
 /*-------Estilos de las paginas----------*/
 .contenido-main{
@@ -223,38 +238,41 @@ input:checked + .slider::before {
     align-items: end;
 }
 .boton-añadir-general{
+    display:flex ;
     background-color: var(--grisClaro);
     border-radius: 0.4rem;
-    color: var(--claro);
+    color: var(--negroClaro);
     padding: 0.5rem 1rem;
     font-size: 1.6rem;
+    box-shadow: 10px 0px 28px 0px rgba(0,0,0,0.197);
 }
-.btn-primary{
-    background-color: rgb(47, 85, 255);
-    font-weight: bold;
-    font-size: 18px;
-}
-.btn-primary:hover{
-    background-color: rgb(182, 193, 240);
-    color:black;
+.quita-borde{
+    text-decoration: none;
 }
 .boton-orden{
     display: flex;
     margin-top: 1rem;
 }
-.titulo-paginas{
+.titulo-paginas-h2{
     display: flex;
     margin: 0 auto;
     background-color: var(--naranja);
     color: var(--claro);
-    padding: 1rem;
+    padding: 1rem 3rem 1rem 3rem;
     border-radius: 1.5rem;
     margin-top: 2.5rem;
     box-shadow: 10px 7px 28px -3px rgba(0,0,0,0.37);
-    width: fit-content;
 }
-.titulo-paginas>h2{
-    margin-bottom: 0;
+.subtitulo-paginas{
+    display: flex;
+    margin: 0 ;
+    background-color: var(--gris);
+    color: var(--grisClaro);
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 1.5rem;
+    margin-top: 2.5rem;
+    font-size: 1.8rem;
+    box-shadow: 10px 7px 28px -3px rgba(0,0,0,0.37);
 }
 .botones-departamentos{
     display: flex;
@@ -267,8 +285,9 @@ input:checked + .slider::before {
     padding: 0.5rem 3rem 0.5rem 3rem;
     color: var(--claro);
     font-weight: bold;
-    background-color: var(--grisClaro);
+    background-color: var(--grisBotones);
     margin-top: 2.7rem;
+    text-decoration: none;
 
 }
 .boton-departamento:hover{
@@ -277,8 +296,12 @@ input:checked + .slider::before {
     box-shadow: 10px 7px 28px -3px rgba(0, 0, 0, 0.464);
 }
 
+.boton-departamento-seleccionado {
+    background-color: var(--negroClaro);  
+    box-shadow: 10px 7px 28px -3px rgba(0, 0, 0, 0.464); 
+}
+
 .bloque-menu{
-    position: absolute;
     display: flex;
     width: 230px;
     height: 100%;
@@ -334,3 +357,144 @@ input:checked + .slider::before {
 .rounded-table tbody tr td:last-child {
     border-right: none;
 }
+
+.mensaje-informacion {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    margin: 4rem 0;
+    border-radius: 3rem;
+    padding: 3rem ;
+    background-color: var(--negroClaro);
+    color: var(--claro);
+    opacity: 75%;
+    box-shadow: 10px 10px 28px 10px rgba(0,0,0,0.197);
+}
+
+.formulario {
+    display: flex;
+    padding: 5rem 8rem;
+    background-color: var(--negroClaro);
+    border-radius: 2rem;
+    flex-direction: column;
+    align-items: end;
+    margin: 3rem auto;
+}
+
+.datos-formu {
+    display: flex;
+    margin: 2.5rem 1rem 0 0;
+    justify-content: end;
+}
+.select{
+    border: none;
+    background-color: var(--claro);
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.formulario-label{
+
+    background-color: var(--gris);
+    padding:1rem 1rem ;
+    border-radius: 0.9rem;
+    color: var(--claro);
+    margin-right: 1rem;
+    font-weight: 400;
+
+}
+.formulario-input{
+    background-color: var(--claro);
+    border-radius: 0.9rem;
+    color: var(--negroClaro);
+    padding: 1rem;
+    display: flex;
+    width: 60rem;
+    font-weight: 400;
+    border: none;
+}
+
+.formulario-input-select{
+    width: 62rem;
+}
+.Boton-insertar{
+    display: flex;
+    background-color: var(--naranja);
+    border-radius: 0.7rem;
+    border: none;
+    padding: 0.7rem 2.2rem;
+    color: var(--claro);
+    cursor: pointer;
+    margin-left: 0.4rem;
+    font-size: 1.5rem;
+}
+.Boton-insertar-input{
+    display: flex;
+    background-color: var(--naranja);
+    border-radius: 0.7rem;
+    border: none;
+    padding: 0.1rem 2.2rem;
+    color: var(--claro);
+    cursor: pointer;
+    margin-left: 0.4rem;
+    font-size: 1.5rem;
+}
+.contenedor-boton-volver{
+    text-decoration: none;
+    border-radius: 0.7rem;
+    background-color: var(--naranja);
+    color: var(--claro);
+    padding: 0.7rem 2.2rem;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+}
+.boton-volver{
+    background-color: var(--naranja);
+    cursor: pointer;
+    color: var(--claro);
+}
+.boton-añadir{
+    text-decoration: none;
+}
+.alerta {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    margin: 0.5rem auto;
+    box-sizing: border-box; /* Esto asegura que el padding no aumente el ancho total del input */
+    padding: 0.5rem;
+    text-align: center;
+    color: var(--naranja);
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 1rem;
+}
+
+.error {
+    box-shadow: 10px 0px 28px 0px rgba(203, 36, 36, 0.28);    
+}
+
+.succes {
+    box-shadow: 10px 0px 28px 0px rgba(58, 203, 36, 0.197);    
+}
+.contador-notificacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1.5rem;
+    margin-top: 0.7rem;
+    background-color: var(--naranja);
+    color: var(--claro);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    font-weight:lighter;
+}
+.contenedor-notificacion{
+    display: flex;
+}
+.tama-campos{
+    width: 7rem;
+}
+
+/*---------------------------*/

@@ -1,15 +1,13 @@
 <?php
-include "../sesion.php";
-include "../Resources/conexion.php";
- 
+    $consulta2 = "SELECT productos.*, categorias.nombre AS nombre_categoria 
+    FROM productos
+    INNER JOIN categorias ON productos.id_categoria = categorias.id
+    WHERE productos.cantidad <= productos.stock_min";
 
-$errores = [];
-$consulta = "SELECT * FROM categorias"; 
-
-$con = new Conexion();
-$resultadoConsulta = $con->queryAll($consulta);
+    $con = new Conexion();
+    $resultadoNotificaciones = $con->queryAll($consulta2);
+    $count_notificaciones = count($resultadoNotificaciones);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,14 +44,23 @@ $resultadoConsulta = $con->queryAll($consulta);
             <div class="contenido-principal">
             <div class="bloque-menu" id="menuBloque">
                 <div  class="menu-overlay" id="menuOverlay">
-                    <nav class="menu">
+                <nav class="menu">
                     <ul>
                         <li>
                             <p class="titu-submenu toggle-link">&nbsp; &nbsp; CONTROL DE STOCK</p>
                             <ul class="submenu">
                                 <li><a href="categorias.php">Categorias</a></li>
                                 <li><a href="productos.php">Productos</a></li>
-                                <li><a href="notificaciones.php">Notificaciones</a></li>
+                                <li>
+                                    <div class="contenedor-notificacion">
+                                        <a href="notificaciones.php">Notificaciones</a>
+                                        <?php  if (intval($count_notificaciones) > 0): ?>
+                                            <div class="contador-notificacion">
+                                                <?php echo $count_notificaciones ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </li>
                                 <li><a href="seguimiento.php">Seguimiento</a></li>
                                 <li><a href="Registro.php">Registro</a></li>
                                 <!-- Agrega más enlaces de servicios aquí -->
@@ -96,56 +103,18 @@ $resultadoConsulta = $con->queryAll($consulta);
                     </ul>
                         <div class="logo_nav">
                             <img src="../img/LOGO-SOLO.png" width="170px" heigth="170px">
+
                             <div class="iconos_nav"> 
+                        
                                 <img class="logo_usuario" src="../img/iconos-06.png">
+                            
                                 <img class="icono_username" src="../img/iconos-07.png">
+                            
                                 <img class="logo_usuario" src="../img/iconos-05.png">
+                            
                             </div>
                             <p class="nombre_usuario">Francisco José</p>
                         </div>
                     </nav>
                 </div>
             </div>
-
-            <div class="bloque-botones">
-                <!-- Contenido de la página -->
-                <div class="titulo-paginas">
-                    <h2 class="titulo-paginas-h2">CATEGORIAS</h2>
-                </div>
-                <?php if (intval($id_rol) == 1 || intval($id_rol) == 2): ?>
-                    <div class="boton-añadir">
-                        <a class="quita-borde" href="nueva-categoria.php"><button class="boton-añadir-general">Añadir</button></a>
-                    </div>
-                <?php endif; ?>
-                <div class="bloque-tabla">
-                    <table class="rounded-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($resultadoConsulta as $categoria){ ?>
-                                <tr class="categoria-cell" data-id="<?php echo $categoria['id']; ?>">
-                                    <td>
-                                        <?php echo $categoria['nombre']; ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo $categoria['descripcion']; ?>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-    <script src="../js/click.js"></script>
-</body>
-    <script src="../js/menu-nav.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/submenu.js"></script>
-</html>

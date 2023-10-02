@@ -1,15 +1,29 @@
 <?php
 include "../sesion.php";
 include "../Resources/conexion.php";
- 
 
-$errores = [];
-$consulta = "SELECT * FROM categorias"; 
+//Recogemos el id de la categoria pasada como parametro en la url
+$id = $_GET['id'];
+
+//consultas para mostrar las tablas por filtros
+$consulta = "SELECT productos.*, categorias.nombre AS nombre_categoria FROM productos
+             INNER JOIN categorias ON productos.id_categoria = categorias.id
+             WHERE categorias.id = $id";
 
 $con = new Conexion();
 $resultadoConsulta = $con->queryAll($consulta);
-?>
 
+//Poner el titulo interactivo
+$consulta2 = "SELECT nombre FROM categorias
+             WHERE categorias.id = $id";
+
+$con = new Conexion();
+$resultadoConsulta2 = $con->queryAll($consulta2);
+$categoria = $resultadoConsulta2[0];
+
+$titulo = strtoupper($categoria['nombre']);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,10 +110,15 @@ $resultadoConsulta = $con->queryAll($consulta);
                     </ul>
                         <div class="logo_nav">
                             <img src="../img/LOGO-SOLO.png" width="170px" heigth="170px">
+
                             <div class="iconos_nav"> 
+                        
                                 <img class="logo_usuario" src="../img/iconos-06.png">
+                            
                                 <img class="icono_username" src="../img/iconos-07.png">
+                            
                                 <img class="logo_usuario" src="../img/iconos-05.png">
+                            
                             </div>
                             <p class="nombre_usuario">Francisco José</p>
                         </div>
@@ -110,35 +129,40 @@ $resultadoConsulta = $con->queryAll($consulta);
             <div class="bloque-botones">
                 <!-- Contenido de la página -->
                 <div class="titulo-paginas">
-                    <h2 class="titulo-paginas-h2">CATEGORIAS</h2>
+                    <h2 class="titulo-paginas-h2">CATEGORIA - <?php echo $titulo ?></h2>
                 </div>
-                <?php if (intval($id_rol) == 1 || intval($id_rol) == 2): ?>
-                    <div class="boton-añadir">
-                        <a class="quita-borde" href="nueva-categoria.php"><button class="boton-añadir-general">Añadir</button></a>
-                    </div>
-                <?php endif; ?>
+                <div class="boton-añadir">
+                    <a class="quita-borde" href="modificar-categoria.php?id=<?php echo $id ?>"><button class="boton-añadir-general">Modificar</button></a>
+                </div>
                 <div class="bloque-tabla">
-                    <table class="rounded-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($resultadoConsulta as $categoria){ ?>
-                                <tr class="categoria-cell" data-id="<?php echo $categoria['id']; ?>">
+                    <?php if(count($resultadoConsulta) == 0): ?>
+                        <p class="mensaje-informacion">No se han encontrado Productos</p>
+                    <?php else :?>
+                        <table class="rounded-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Código</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($resultadoConsulta as $productos){ ?>
+                                <tr>
                                     <td>
-                                        <?php echo $categoria['nombre']; ?>
+                                        <?php echo $productos['nombre']; ?>
                                     </td>
-
                                     <td>
-                                        <?php echo $categoria['descripcion']; ?>
+                                        <?php echo $productos['nombre_categoria']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $productos['cantidad']; ?>
                                     </td>
                                 </tr>
                             <?php } ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    <?php endif;?>
                 </div>
             </div>
         </div>

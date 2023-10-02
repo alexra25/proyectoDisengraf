@@ -1,3 +1,44 @@
+<?php 
+    include "../sesion.php";
+    include "../Resources/conexion.php";
+
+    $errores = [];
+
+    //$consulta = "SELECT * FROM productos";
+    $consulta = "SELECT productos.*, 
+    categorias.nombre AS nombre_categoria,
+    estados.nombre_estado
+    FROM productos
+    INNER JOIN categorias ON productos.id_categoria = categorias.id
+    INNER JOIN estados ON productos.id_estado = estados.id
+    WHERE productos.cantidad <= productos.stock_min";
+
+    $con = new Conexion();
+    $resultadoConsulta = $con->queryAll($consulta);
+    //$productos = $resultadoConsulta[0];
+
+    $consulta2 = "SELECT productos.*, categorias.nombre AS nombre_categoria 
+            FROM productos
+            INNER JOIN categorias ON productos.id_categoria = categorias.id
+            WHERE productos.cantidad <= productos.stock_min";
+
+    $con = new Conexion();
+    $resultadoNotificaciones = $con->queryAll($consulta2);
+    $count_notificaciones = count($resultadoNotificaciones);
+
+
+if (isset($_POST['orden'])) {
+    if (isset($_POST['seleccionados'])) {
+        $seleccionados = implode(',', $_POST['seleccionados']);
+        header("Location: nueva-orden.php?seleccionados=$seleccionados");
+        exit();
+    } else {
+        $errores[] = "Ningún producto seleccionado.";
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,57 +75,63 @@
             <div class="contenido-principal">
             <div class="bloque-menu" id="menuBloque">
                 <div  class="menu-overlay" id="menuOverlay">
-                    <nav class="menu">
-                        <ul>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; CONTROL DE STOCK</p>
+                <nav class="menu">
+                    <ul>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; CONTROL DE STOCK</p>
+                            <ul class="submenu">
+                                <li><a href="categorias.php">Categorias</a></li>
+                                <li><a href="productos.php">Productos</a></li>
+                                <li>
+                                    <div class="contenedor-notificacion">
+                                        <a href="notificaciones.php">Notificaciones</a>
+                                        <?php  if (intval($count_notificaciones) > 0): ?>
+                                            <div class="contador-notificacion">
+                                                <?php echo $count_notificaciones ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </li>
+                                <li><a href="seguimiento.php">Seguimiento</a></li>
+                                <li><a href="Registro.php">Registro</a></li>
+                                <!-- Agrega más enlaces de servicios aquí -->
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; FICHAS TÉCNICAS</p>
+                            <ul class="submenu">
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; BUSCAR PEDIDO</p>
+                            <ul class="submenu">
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; PRODUCCIÓN</p>
+                            <ul class="submenu">
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; CORREO</p>
+                            <ul class="submenu">
+                            </ul>
+                        </li>
+                        <li>
+                            <p class="titu-submenu toggle-link">&nbsp; &nbsp; LEN</p>
+                            <ul class="submenu">
+                            </ul>
+                        </li>
+                        <li>
+                            <?php if (intval($id_rol) == 1): ?>
+                                <p class="titu-submenu toggle-link">&nbsp; &nbsp; ADMINISTRADOR</p>
                                 <ul class="submenu">
-                                    <li><a href="categorias.php">Categorias</a></li>
-                                    <li><a href="productos.php">Productos</a></li>
-                                    <li><a href="notificaciones.php">Notificaciones</a></li>
-                                    <li><a href="seguimiento.php">Seguimiento</a></li>
-                                    <li><a href="Registro.php">Registro</a></li>
-                                    <li><a href="Usuarios.php">Usuarios</a></li>
-                                    <li><a href="proveedores.php">Proveedores</a></li>
+                                    <li><a href="../Usuarios.php">Usuarios</a></li>
+                                    <li><a href="../proveedores.php">Proveedores</a></li>
                                 </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; FICHAS TÉCNICAS</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; BUSCAR PEDIDO</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; PRODUCCIÓN</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; CORREO</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; LEN</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                            <li>
-                                <p class="titu-submenu">&nbsp; &nbsp; DPTO. TÉCNICO</p>
-                                <ul class="submenu">
-                                    
-                                </ul>
-                            </li>
-                        </ul>
+                            <?php endif; ?>
+                        </li>
+                    </ul>
                         <div class="logo_nav">
                             <img src="../img/LOGO-SOLO.png" width="170px" heigth="170px">
 
@@ -106,45 +153,62 @@
             <div class="bloque-botones">
                 <!-- Contenido de la página -->
                 <div class="titulo-paginas">
-                    <h2 class="titulo-paginas-h2">REGISTRO</h2>
+                    <h2 class="titulo-paginas-h2">NOTIFICACIONES</h2>
                 </div>
-                <div class="bloque-tabla">
-                    <table class="rounded-table">
-                        <thead>
-                            <tr>
-                                <th>Solicitar</th>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                                <th>Cantidad</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Product 2</td>
-                                <td>Folios</td>
-                                <td>5</td>
-                                <td>Perdiente orden</td>
-                                
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>Product 5</td>
-                                <td>Folios</td>
-                                <td>7</td>
-                                <td>Perdiente orden</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="boton-orden">
-                    <button class="boton-añadir-general">Orden Compras</button>
+                <form method="post">
+                    <div class="bloque-tabla">
+                        <table class="rounded-table">
+                            <thead>
+                                <?php if (count($resultadoConsulta) > 0 ) {
+                                    echo '
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <th>Nombre</th>
+                                        <th>Cantidad</th>
+                                        <th>Solicitar</th>
+                                        <th>Estado</th>
+                                    </tr>';}
+                                ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($resultadoConsulta as $productos){ ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo $productos['nombre_categoria']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $productos['nombre']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $productos['cantidad']; ?>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="seleccionados[]" value="<?php echo $productos['id']; ?>">
+                                        </td>
+                                        <td>
+                                            <?php echo $productos['nombre_estado']; ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="boton-orden">
+                        <?php if (count($resultadoConsulta) > 0 ) {
+                                    echo '<input class="boton-añadir-general" type="submit" value="Orden Compras" name="orden">';
+                                } else {
+                                    
+                                }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
 </body>
-<script src="../js/menu-nav.js"></script>
+    <script src="../js/menu-nav.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/submenu.js"></script>
 </html>

@@ -1,37 +1,57 @@
-<?php
-    include "../sesion.php";
-    include "../Resources/conexion.php";
+<?php 
+include "../sesion.php";
+include "../Resources/conexion.php";
 
-    // consultar todos los departamentos
-    $consulta_departamentos = "SELECT * FROM departamentos";
-    $con = new Conexion();
-    $resultadoDepartamentos = $con->queryAll($consulta_departamentos);
+$seleccionados = $_GET['seleccionados'];
+$errores = [];
+$idArray = explode(',', $seleccionados);
+$idArray = array_map('intval', $idArray);
+$ids = implode(',', $idArray);
 
-    $titulo_pagina = "Productos";
-    $departamento = "none";
+//$consulta = "SELECT * FROM productos WHERE id IN ($ids)";
+$consulta = "SELECT productos.*, categorias.nombre AS nombre_categoria FROM productos
+            INNER JOIN categorias ON productos.id_categoria = categorias.id
+            WHERE productos.id IN ($ids)";
 
-    //consultas para mostrar las tablas por filtros
-    $consulta = "SELECT productos.*, categorias.nombre AS nombre_categoria,departamentos.departamento FROM productos
-             INNER JOIN categorias ON productos.id_categoria = categorias.id
-             INNER JOIN departamentos ON productos.id_departamento = departamentos.id";
-    $con = new Conexion();
-    $resultado = $con->queryAll($consulta);
+$con = new Conexion();
+$resultadoConsulta = $con->queryAll($consulta);
 
-    if ($_GET) {
-        $departamento = $_GET['departamento'];
-        $consulta2 = "SELECT productos.*, categorias.nombre AS nombre_categoria,departamentos.departamento FROM productos
-        INNER JOIN categorias ON productos.id_categoria = categorias.id
-        INNER JOIN departamentos ON productos.id_departamento = departamentos.id
-        WHERE productos.id_departamento = $departamento";
-        $con = new Conexion();
-        $resultado = $con->queryAll($consulta2);
+if (isset($_POST['solicitar'])) {
+    $cantidades = $_POST['cantidad'];
+    $productos = $_POST['productos'];
+    $estados = $_POST['estados'];
+    
 
-        $consulta3 = "SELECT departamento FROM departamentos WHERE id = $departamento";
-        $con = new Conexion();
-        $resultado2 = $con->queryAll($consulta3);
-        $depa=$resultado2[0];
-        if ($depa) {
-            $titulo_pagina = "Productos de " . $depa['departamento'];
+    if (isset($_POST['cantidad'])) {
+        for ($i = 0; $i < count($cantidades); $i++) {
+            $id_producto = $productos[$i];
+            $cantidad_solicitada = $cantidades[$i];
+            $id_estado = $estados[$i];
+            $pendiente_entrega = $cantidad_solicitada;
+
+            if($id_estado == 2){
+                $id_estado_producto = 3;
+                $consulta2 = "UPDATE productos SET id_estado = '$id_estado_producto' WHERE id = $id_producto";
+                $con = new Conexion();
+                $resultadoConsulta2 = $con->query($consulta2);
+            }
+                
+            // Insertar en la tabla seguimiento
+            $id_estado = 3;
+
+            $consulta3 = "INSERT INTO seguimiento (cantidad, id_usuario, id_producto, id_estado, pendiente_entrega)
+                        VALUES ('$cantidad_solicitada', '$id_usuario', '$id_producto', '$id_estado', '$pendiente_entrega')";
+                            
+            $con = new Conexion();
+            $resultadoConsulta3 = $con->query($consulta3);
+        }
+
+    }
+
+        if ($resultadoConsulta3) {
+            //setRegistro($$id_estado, 7, $id_usuario, $id_producto, $id_categoria, $conn);
+            header("Location: seguimiento.php");
+        }else{
         }
     }
 ?>
@@ -141,60 +161,52 @@
             <div class="bloque-botones">
                 <!-- Contenido de la página -->
                 <div class="titulo-paginas">
-                    <h2 class="titulo-paginas-h2"><?php echo $titulo_pagina ?></h2>
+                    <h2 class="titulo-paginas-h2">NUEVA ORDEN DE COMPRAS</h2>
                 </div>
-                
-                <div class="botones-departamentos">
-                <a class="boton-departamento <?php echo $departamento == 'none' ? 'boton-departamento-seleccionado': '';?>" href="productos.php">Todos</a>
-                <?php foreach ($resultadoDepartamentos as $depar){ ?> 
-                    <a class="boton-departamento <?php echo $departamento == $depar['id'] ? 'boton-departamento-seleccionado': '';?>" 
-                    href="productos.php?departamento=<?php echo $depar['id']?>"><?php echo $depar['departamento']?></a>
-                <?php } ?>
-                    <?php if (intval($id_rol) == 1 || intval($id_rol) == 2): ?>
-                        <a class="boton-añadir" href="nuevo-producto.php">
-                            <div class="boton-departamento">Añadir</div>
-                        </a>
-                    <?php endif; ?>
-                </div>
+                <form method="post">
                 <div class="bloque-tabla">
-
-                <?php if(count($resultado) == 0): ?>
-                    <p class="mensaje-informacion">No se han encontrado resultados</p>
-                <?php else :?>
                     <table class="rounded-table">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
-                                <th>Departamento</th>
-                                <th>Cantidad</th>
+                                <th>Stock</th>
+                                <th class="tama-campos">Cantidad</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($resultado as $producto){ ?>
-                                <tr class="categoria-cell" data-id="<?php echo $producto['id']; ?>">
+                            <?php foreach ($resultadoConsulta as $productos){ ?>
+                                <tr>
                                     <td>
-                                        <?php echo $producto['nombre']; ?>
+                                        <?php echo $productos['nombre']; ?>
                                     </td>
+
                                     <td>
-                                        <?php echo $producto['nombre_categoria']; ?>
+                                        <?php echo $productos['nombre_categoria']; ?>
                                     </td>
+
+                                    <td class="tama-campos">
+                                        <?php echo $productos['cantidad']; ?>
+                                    </td>
+
                                     <td>
-                                        <?php echo $producto['departamento']; ?>
+                                        <input class="formulario-input" type="number" value="1" min="0" name="cantidad[]">
+                                        <input type="hidden" name="productos[]" value="<?php echo $productos['id'] ?>">
+                                        <input type="hidden" name="estados[]" value="<?php echo $productos['id_estado'] ?>">
                                     </td>
-                                    <td>
-                                        <?php echo $producto['cantidad']; ?>
-                                    </td>
+
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
-                <?php endif;?>
-                </div>
+            </div>
+            <div class="datos-formu">
+                <input class="Boton-insertar" type="submit" value="Solicitar" name="solicitar">
+            </div>
+            
             </div>
         </div>
     </main>
-    <script src="../js/clickProductos.js"></script>
 </body>
 <script src="../js/menu-nav.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
